@@ -1,9 +1,9 @@
-import Image from 'next/image';
+import InvoiceTemplate from '@/components/InvoiceTemplate';
 
 export default function Home() {
   return (
-    <div>
-      <h1 className="text-2xl text-gray-400">Hello World</h1>
+    <div className="bg-primary min-h-screen flex flex-col items-center">
+      <InvoiceTemplate />
     </div>
   );
 }
