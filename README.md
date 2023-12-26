@@ -1,2 +1,2 @@
 # InvoiceGenerator
-Generates an invoice for freelancers to use
+Generate invoices for your clients.
