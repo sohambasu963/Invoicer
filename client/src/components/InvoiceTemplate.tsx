@@ -2,18 +2,18 @@
 import React, { useState, useEffect } from 'react';
 
 export default function InvoiceTemplate() {
-  const [clientName, setClientName] = useState('Client Name');
-  const [companyName, setCompanyName] = useState('Company Name');
-  const [companyEmail, setCompanyEmail] = useState('Company Email');
-  const [issueDate, setIssueDate] = useState('MM/DD/YYYY');
-  const [contactName, setContactName] = useState('Contact Name');
-  const [contactEmail, setContactEmail] = useState('Contact Email');
+  const [clientName, setClientName] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [companyEmail, setCompanyEmail] = useState('');
+  const [issueDate, setIssueDate] = useState('');
+  const [contactName, setContactName] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
 
   const [services, setServices] = useState([
     { name: '', description: '', price: '' },
   ]);
   const [payments, setPayments] = useState([
-    { date: 'Jan 1, 2024', percent: '100.00%', amount: '0' },
+    { date: 'TBD', percent: '100.00%', amount: '0' },
   ]);
 
   const calculateTotal = () => {
@@ -42,7 +42,7 @@ export default function InvoiceTemplate() {
   const addPayment = () => {
     setPayments([
       ...payments,
-      { date: 'Jan 1, 2024', percent: '100.00%', amount: '0' },
+      { date: 'TBD', percent: '100.00%', amount: '0' },
     ]);
   };
 
@@ -51,6 +51,20 @@ export default function InvoiceTemplate() {
       setPayments(payments.filter((_, i) => i !== index));
     }
   };
+
+  const distributePayments = () => {
+    const updatedPayments = payments.map((payment, i) => {
+      return {
+        ...payment,
+        percent: `${(100 / payments.length).toFixed(2)}%`,
+      };
+    });
+    setPayments(updatedPayments);
+  };
+
+  useEffect(() => {
+    distributePayments();
+  }, [payments.length]);
 
   const formatCurrency = (value: string) => {
     let numberValue = Number(value.replace(/[^0-9.-]+/g, ''));
@@ -140,19 +154,21 @@ export default function InvoiceTemplate() {
     >
       <header className="flex justify-between items-center">
         <h1 className="text-6xl font-satoshi-variable font-bold">Invoice</h1>
-        <div className="text-right">
+        <div>
           <input
             type="text"
             value={companyName}
             onChange={(e) => setCompanyName(e.target.value)}
-            className="font-satoshi-variable text-md inline-block border-b-2 border-gray-300"
+            className="font-satoshi-variable text-md text-right inline-block border-b-2 border-gray-300 w-64"
+            placeholder="Company Name"
           />
           <br />
           <input
             type="email"
             value={companyEmail}
             onChange={(e) => setCompanyEmail(e.target.value)}
-            className="font-satoshi-variable text-md inline-block border-b-2 border-gray-300"
+            className="font-satoshi-variable text-md text-right inline-block border-b-2 border-gray-300 w-64"
+            placeholder="Company Email"
           />
         </div>
       </header>
@@ -163,7 +179,8 @@ export default function InvoiceTemplate() {
           type="text"
           value={clientName}
           onChange={handleClientNameChange}
-          className="inline-block border-b-2 border-gray-300"
+          className="inline-block border-b-2 border-gray-300 w-64"
+          placeholder="Client Name"
         />
       </h2>
 
@@ -175,7 +192,8 @@ export default function InvoiceTemplate() {
             type="text"
             value={issueDate}
             onChange={(e) => setIssueDate(e.target.value)}
-            className="font-gambetta-variable text-lg inline-block border-b-2 border-gray-300"
+            className="font-gambetta-variable text-lg inline-block border-b-2 border-gray-300 w-64"
+            placeholder="MM/DD/YYYY"
           />
         </p>
 
@@ -187,14 +205,16 @@ export default function InvoiceTemplate() {
           type="text"
           value={contactName}
           onChange={(e) => setContactName(e.target.value)}
-          className="font-gambetta-variable text-lg inline-block border-b-2 border-gray-300"
+          className="font-gambetta-variable text-lg inline-block border-b-2 border-gray-300 w-72"
+          placeholder="Contact Name"
         />
         <br />
         <input
           type="email"
           value={contactEmail}
           onChange={(e) => setContactEmail(e.target.value)}
-          className="font-gambetta-variable text-lg inline-block border-b-2 border-gray-300"
+          className="font-gambetta-variable text-lg inline-block border-b-2 border-gray-300 w-72"
+          placeholder="Contact Email"
         />
       </section>
 
