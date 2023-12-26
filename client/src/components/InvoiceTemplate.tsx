@@ -2,10 +2,18 @@
 import React, { useState, useEffect } from 'react';
 
 export default function InvoiceTemplate() {
+    const today = new Date();
+  const formattedToday = today.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+
   const [clientName, setClientName] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [companyEmail, setCompanyEmail] = useState('');
-  const [issueDate, setIssueDate] = useState('');
+  const [issueDate, setIssueDate] = useState(formattedToday);
   const [contactName, setContactName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
 
@@ -13,7 +21,7 @@ export default function InvoiceTemplate() {
     { name: '', description: '', price: '' },
   ]);
   const [payments, setPayments] = useState([
-    { date: 'TBD', percent: '100.00%', amount: '0' },
+    { date: '', percent: '100.00%', amount: '0' },
   ]);
 
   const calculateTotal = () => {
@@ -42,7 +50,7 @@ export default function InvoiceTemplate() {
   const addPayment = () => {
     setPayments([
       ...payments,
-      { date: 'TBD', percent: '100.00%', amount: '0' },
+      { date: '', percent: '100.00%', amount: '0' },
     ]);
   };
 
@@ -51,6 +59,14 @@ export default function InvoiceTemplate() {
       setPayments(payments.filter((_, i) => i !== index));
     }
   };
+
+  const handlePaymentDateChange = (index: number, newDate: string) => {
+    const updatedPayments = payments.map((payment, i) =>
+      i === index ? { ...payment, date: newDate } : payment
+    );
+    setPayments(updatedPayments);
+  };
+  
 
   const distributePayments = () => {
     const updatedPayments = payments.map((payment, i) => {
@@ -311,9 +327,13 @@ export default function InvoiceTemplate() {
           {/* Payment Row */}
           {payments.map((payment, index) => (
             <div className="flex mb-4" key={index}>
-              <p className="flex-grow font-satoshi-variable text-md w-1/2">
-                Payment {index + 1}: {payment.date}
-              </p>
+              <input
+                type="text"
+                value={payment.date}
+                onChange={(e) => handlePaymentDateChange(index, e.target.value)}
+                className="flex-grow font-satoshi-variable text-md inline-block border-b-2 border-gray-300 w-1/2"
+                placeholder={`Payment ${index + 1}: TBD`}
+                />
               <p className="font-satoshi-variable text-gray-400 text-md w-1/4 text-center">
                 {payment.percent}
               </p>

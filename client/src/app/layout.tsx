@@ -5,7 +5,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Invoice Generator',
+  title: 'Invoicer',
   description: 'Generate invoices for your clients.',
 };
 
