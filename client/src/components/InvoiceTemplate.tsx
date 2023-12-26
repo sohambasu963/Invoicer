@@ -1,4 +1,38 @@
+'use client';
+import React, { useState } from 'react';
+
 export default function InvoiceTemplate() {
+  const [clientName, setClientName] = useState('Client Name');
+  const [companyName, setCompanyName] = useState('Company Name');
+  const [companyEmail, setCompanyEmail] = useState('Company Email');
+  const [issueDate, setIssueDate] = useState('MM/DD/YYYY');
+  const [contactName, setContactName] = useState('Contact Name');
+  const [contactEmail, setContactEmail] = useState('Contact Email');
+
+  const handleClientNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setClientName(event.target.value);
+  };
+
+  const handleCompanyNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCompanyName(event.target.value);
+  };
+
+  const handleCompanyEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCompanyEmail(event.target.value);
+  };
+
+  const handleIssueDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIssueDate(event.target.value);
+  };
+
+  const handleContactNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setContactName(event.target.value);
+  };
+
+  const handleContactEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setContactEmail(event.target.value);
+  };
+
   return (
     <div
       className="bg-white p-10 flex flex-col justify-between"
@@ -12,25 +46,61 @@ export default function InvoiceTemplate() {
       <header className="flex justify-between items-center">
         <h1 className="text-6xl font-satoshi-variable font-bold">Invoice</h1>
         <div className="text-right">
-          <p className="font-satoshi-variable text-md">Company Name</p>
-          <p className="font-satoshi-variable text-mds">Company Email</p>
+          <input
+            type="text"
+            value={companyName}
+            onChange={(e) => setCompanyName(e.target.value)}
+            className="font-satoshi-variable text-md inline-block border-b-2 border-gray-300"
+          />
+          <br />
+          <input
+            type="email"
+            value={companyEmail}
+            onChange={(e) => setCompanyEmail(e.target.value)}
+            className="font-satoshi-variable text-md inline-block border-b-2 border-gray-300"
+          />
         </div>
       </header>
 
       <h2 className="text-xl mt-4 font-satoshi-variable font-bold">
-        Client — Example Corporation
+        Client —{' '}
+        <input
+          type="text"
+          value={clientName}
+          onChange={handleClientNameChange}
+          className="inline-block border-b-2 border-gray-300"
+        />
       </h2>
 
       <section className="my-8">
         {/* Client Details */}
         <p className="font-gambetta-variable text-lg">
-          <strong>Date of Issue:</strong> Month, DD, YYYY
+          <strong>Date of Issue:</strong>{' '}
+          <input
+            type="text"
+            value={issueDate}
+            onChange={(e) => setIssueDate(e.target.value)}
+            className="font-gambetta-variable text-lg inline-block border-b-2 border-gray-300"
+          />
         </p>
+
         <p className="font-gambetta-variable text-lg">
           <strong>Billed To:</strong>
         </p>
-        <p className="font-gambetta-variable text-lg">Contact Name</p>
-        <p className="font-gambetta-variable text-lg">Contact Email</p>
+
+        <input
+          type="text"
+          value={contactName}
+          onChange={(e) => setContactName(e.target.value)}
+          className="font-gambetta-variable text-lg inline-block border-b-2 border-gray-300"
+        />
+        <br />
+        <input
+          type="email"
+          value={contactEmail}
+          onChange={(e) => setContactEmail(e.target.value)}
+          className="font-gambetta-variable text-lg inline-block border-b-2 border-gray-300"
+        />
       </section>
 
       <section className="flex-grow">
@@ -54,7 +124,6 @@ export default function InvoiceTemplate() {
               <p className="text-md">$2,000.00</p>
             </div>
           </div>
-
         </div>
       </section>
 
