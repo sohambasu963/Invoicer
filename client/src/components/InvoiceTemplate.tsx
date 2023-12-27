@@ -1,14 +1,21 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, {
+  ReactElement,
+  useState,
+  useEffect,
+  forwardRef,
+  RefAttributes,
+} from 'react';
 
-export default function InvoiceTemplate() {
-    const today = new Date();
+interface Props extends RefAttributes<HTMLDivElement> {}
+
+const InvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
+  const today = new Date();
   const formattedToday = today.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
   });
-
 
   const [clientName, setClientName] = useState('');
   const [companyName, setCompanyName] = useState('');
@@ -48,10 +55,7 @@ export default function InvoiceTemplate() {
   };
 
   const addPayment = () => {
-    setPayments([
-      ...payments,
-      { date: '', percent: '100.00%', amount: '0' },
-    ]);
+    setPayments([...payments, { date: '', percent: '100.00%', amount: '0' }]);
   };
 
   const removePayment = (index: number) => {
@@ -66,7 +70,6 @@ export default function InvoiceTemplate() {
     );
     setPayments(updatedPayments);
   };
-  
 
   const distributePayments = () => {
     const updatedPayments = payments.map((payment, i) => {
@@ -160,10 +163,11 @@ export default function InvoiceTemplate() {
 
   return (
     <div
+      ref={ref}
       className="bg-white p-10 flex flex-col justify-between"
       style={{
-        width: '816px',
-        height: '1056px',
+        width: '850px',
+        height: '1100px',
         boxShadow: '0px 0px 8px rgba(0,0,0,0.1)',
         margin: '5vh auto',
       }}
@@ -287,7 +291,7 @@ export default function InvoiceTemplate() {
                   placeholder="$0.00"
                 />
                 {index !== 0 && (
-                  <button className="pl-2 -mr-8">
+                  <button className="pl-2 -mr-8 remove-button">
                     <svg
                       className="w-6 h-6 text-red-500"
                       fill="none"
@@ -308,7 +312,7 @@ export default function InvoiceTemplate() {
             ))}
             <div className="flex justify-end">
               <button
-                className="text-sm font-satoshi-variable text-gray-400"
+                className="add-service-button text-sm font-satoshi-variable text-gray-400"
                 onClick={addService}
               >
                 + Add Service
@@ -333,7 +337,7 @@ export default function InvoiceTemplate() {
                 onChange={(e) => handlePaymentDateChange(index, e.target.value)}
                 className="flex-grow font-satoshi-variable text-md inline-block border-b-2 border-gray-300 w-1/2"
                 placeholder={`Payment ${index + 1}: TBD`}
-                />
+              />
               <p className="font-satoshi-variable text-gray-400 text-md w-1/4 text-center">
                 {payment.percent}
               </p>
@@ -345,7 +349,7 @@ export default function InvoiceTemplate() {
                 ).toFixed(2)}
               </p>
               {index !== 0 && (
-                <button className="pl-2 -mr-8">
+                <button className="pl-2 -mr-8 remove-button">
                   <svg
                     className="w-6 h-6 text-red-500"
                     fill="none"
@@ -366,7 +370,7 @@ export default function InvoiceTemplate() {
           ))}
           <div className="flex justify-end">
             <button
-              className="text-sm font-satoshi-variable text-gray-400"
+              className="add-payment-button text-sm font-satoshi-variable text-gray-400"
               onClick={addPayment}
             >
               + Add Payment
@@ -392,4 +396,6 @@ export default function InvoiceTemplate() {
       </section>
     </div>
   );
-}
+});
+
+export default InvoiceTemplate;
