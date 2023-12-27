@@ -17,7 +17,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
   const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
     authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -27,9 +26,9 @@ export default function RootLayout({
     appId: process.env.FIREBASE_APP_ID,
     measurementId: process.env.FIREBASE_MEASUREMENT_ID,
   };
-  
+
   const app = initializeApp(firebaseConfig);
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     const analytics = getAnalytics(app);
   }
 
