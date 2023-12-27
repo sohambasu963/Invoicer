@@ -77,11 +77,12 @@ export default function Home() {
   const handleReset = () => {
     window.location.reload();
   };
-  
 
   return (
     <div className="bg-primary min-h-screen flex flex-col items-center">
-      <h1 className="text-4xl font-bold font-satoshi-variable mt-8">Create an Invoice</h1>
+      <h1 className="text-4xl font-bold font-satoshi-variable mt-8">
+        Create an Invoice
+      </h1>
       <div className="flex justify-center mt-4">
         <button
           className="bg-blue-500 text-white font-bold font-gambetta-variable py-2 px-4 rounded hover:bg-blue-600 mr-2"
@@ -98,5 +99,5 @@ export default function Home() {
       </div>
       <InvoiceTemplate ref={invoiceRef} />
     </div>
-  );  
+  );
 }

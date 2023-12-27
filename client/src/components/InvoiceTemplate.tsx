@@ -1,11 +1,5 @@
 'use client';
-import React, {
-  ReactElement,
-  useState,
-  useEffect,
-  forwardRef,
-  RefAttributes,
-} from 'react';
+import React, { useState, useEffect, forwardRef, RefAttributes } from 'react';
 
 interface Props extends RefAttributes<HTMLDivElement> {}
 
@@ -415,5 +409,7 @@ const InvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
     </div>
   );
 });
+
+InvoiceTemplate.displayName = 'InvoiceTemplate';
 
 export default InvoiceTemplate;
