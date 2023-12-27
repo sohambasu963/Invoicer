@@ -181,12 +181,12 @@ const InvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
   return (
     <div
       ref={ref}
-      className="bg-white p-10 flex flex-col justify-between"
+      className="bg-white p-10 flex flex-col justify-between mt-[2vh] mb-[5vh]"
       style={{
         width: '850px',
         height: '1100px',
         boxShadow: '0px 0px 8px rgba(0,0,0,0.1)',
-        margin: '5vh auto',
+        // margin: '10vh auto',
       }}
     >
       <header className="flex justify-between items-center">

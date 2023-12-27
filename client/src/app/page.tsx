@@ -74,15 +74,29 @@ export default function Home() {
       });
   };
 
+  const handleReset = () => {
+    window.location.reload();
+  };
+  
+
   return (
     <div className="bg-primary min-h-screen flex flex-col items-center">
+      <h1 className="text-4xl font-bold font-satoshi-variable mt-8">Create an Invoice</h1>
+      <div className="flex justify-center mt-4">
+        <button
+          className="bg-blue-500 text-white font-bold font-gambetta-variable py-2 px-4 rounded hover:bg-blue-600 mr-2"
+          onClick={downloadAsPdf}
+        >
+          Download as PDF
+        </button>
+        <button
+          className="bg-red-500 text-white font-bold font-gambetta-variable py-2 px-4 rounded hover:bg-red-600"
+          onClick={handleReset}
+        >
+          Reset
+        </button>
+      </div>
       <InvoiceTemplate ref={invoiceRef} />
-      <button
-        className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mt-4"
-        onClick={downloadAsPdf}
-      >
-        Download as PDF
-      </button>
     </div>
-  );
+  );  
 }
