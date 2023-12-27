@@ -1,12 +1,27 @@
 'use client';
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import InvoiceTemplate from '@/components/InvoiceTemplate';
 import jsPDF from 'jspdf';
 import domtoimage from 'dom-to-image';
-import { saveAs } from 'file-saver';
+import MobilePopup from '@/components/MobilePopup';
 
 export default function Home() {
   const invoiceRef = useRef<HTMLDivElement>(null);
+  const [showPopup, setShowPopup] = useState(false);
+
+  const checkScreenSize = () => {
+    const isMobileScreen = window.innerWidth < 768;
+    setShowPopup(isMobileScreen);
+  };
+
+  useEffect(() => {
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+
+    return () => {
+      window.removeEventListener('resize', checkScreenSize);
+    };
+  }, []);
 
   const downloadAsPdf = async () => {
     const element = invoiceRef.current;
@@ -80,6 +95,7 @@ export default function Home() {
 
   return (
     <div className="bg-primary min-h-screen flex flex-col items-center">
+      {showPopup && <MobilePopup setShowPopup={setShowPopup} />}
       <h1 className="text-4xl font-bold font-satoshi-variable mt-8">
         Create an Invoice
       </h1>
