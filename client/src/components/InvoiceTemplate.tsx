@@ -23,6 +23,7 @@ const InvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
   const [issueDate, setIssueDate] = useState(formattedToday);
   const [contactName, setContactName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
+  const [currency, setCurrency] = useState('TOTAL DUE (USD)');
 
   const [services, setServices] = useState([
     { name: '', description: '', price: '' },
@@ -72,10 +73,22 @@ const InvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
   };
 
   const distributePayments = () => {
-    const updatedPayments = payments.map((payment, i) => {
+    let subtotal = 0;
+    const updatedPayments = payments.map((payment, index) => {
+      const percent = 100 / payments.length;
+      let amount;
+
+      if (index < payments.length - 1) {
+        amount = parseFloat(((percent / 100) * totalAmount).toFixed(2));
+        subtotal += amount;
+      } else {
+        amount = totalAmount - subtotal;
+      }
+
       return {
         ...payment,
-        percent: `${(100 / payments.length).toFixed(2)}%`,
+        percent: `${percent.toFixed(2)}%`,
+        amount: amount.toFixed(2),
       };
     });
     setPayments(updatedPayments);
@@ -83,9 +96,9 @@ const InvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
 
   useEffect(() => {
     distributePayments();
-  }, [payments.length]);
+  }, [payments.length, totalAmount]);
 
-  const formatCurrency = (value: string) => {
+  const formatAmount = (value: string) => {
     let numberValue = Number(value.replace(/[^0-9.-]+/g, ''));
     if (!isNaN(numberValue)) {
       return `$${numberValue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
@@ -117,12 +130,16 @@ const InvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
   const handlePriceInputBlur = (index: number) => {
     const updatedServices = services.map((service, i) => {
       if (i === index) {
-        const formattedPrice = formatCurrency(service.price);
+        const formattedPrice = formatAmount(service.price);
         return { ...service, price: formattedPrice };
       }
       return service;
     });
     setServices(updatedServices);
+  };
+
+  const handleCurrencyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrency(event.target.value);
   };
 
   const handleClientNameChange = (
@@ -242,10 +259,12 @@ const InvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
         {/* Invoice Details Section */}
         <div className="w-full text-left">
           <div className="flex justify-between items-center mb-2">
-            <h3 className="font-satoshi-variable text-sm uppercase">
+            <h3 className="font-satoshi-variable text-sm text-gray-500 uppercase">
               Services
             </h3>
-            <h3 className="font-satoshi-variable text-sm uppercase">Price</h3>
+            <h3 className="font-satoshi-variable text-sm text-gray-500 uppercase">
+              Price
+            </h3>
           </div>
 
           <div className="border-t-2 border-black pt-4">
@@ -270,7 +289,7 @@ const InvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
                     onChange={(e) =>
                       handleServiceDescriptionChange(index, e.target.value)
                     }
-                    className="font-satoshi-variable text-md inline-block border-b-2 border-gray-300 w-full mt-2"
+                    className="font-satoshi-variable text-md text-gray-400 inline-block border-b-2 border-gray-300 w-full"
                     placeholder="Description"
                   />
                 </div>
@@ -324,11 +343,10 @@ const InvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
 
       {/* Payment Structure Section */}
       <section className="flex-grow-0 mb-8">
-        <h3 className="font-satoshi-variable text-sm uppercase mb-2">
+        <h3 className="font-satoshi-variable text-sm text-gray-500 uppercase mb-2">
           Payment Structure
         </h3>
         <div className="border-t-2 border-black py-4">
-          {/* Payment Row */}
           {payments.map((payment, index) => (
             <div className="flex mb-4" key={index}>
               <input
@@ -342,11 +360,7 @@ const InvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
                 {payment.percent}
               </p>
               <p className="font-satoshi-variable text-md w-1/4 text-right">
-                $
-                {(
-                  (parseFloat(payment.percent.replace(/[^\d.-]/g, '')) / 100) *
-                  totalAmount
-                ).toFixed(2)}
+                {formatAmount(payment.amount)}
               </p>
               {index !== 0 && (
                 <button className="pl-2 -mr-8 remove-button">
@@ -382,9 +396,13 @@ const InvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
       {/* Total Section */}
       <section className="flex-grow-0">
         <div className="flex justify-end">
-          <h3 className="font-satoshi-variable text-lg font-bold">
-            Total Due (USD):
-          </h3>
+          <input
+            type="text"
+            value={currency}
+            onChange={handleCurrencyChange}
+            className="font-satoshi-variable text-sm text-right text-gray-500 font-bold uppercase inline-block border-b-2 border-gray-300"
+            placeholder="TOTAL DUE (USD)"
+          />
         </div>
         <div className="border-t-2 border-black pt-4">
           <div className="flex justify-end">
