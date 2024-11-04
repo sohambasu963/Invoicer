@@ -145,7 +145,7 @@ export default function Home() {
     >
       {showPopup && <MobilePopup setShowPopup={setShowPopup} />}
       <h1 className="text-4xl font-bold font-satoshi-variable mt-8">
-        Create an Invoice
+        Create an Invoice (SWE)
       </h1>
       <div className="flex justify-center mt-4 space-x-4">
       <button

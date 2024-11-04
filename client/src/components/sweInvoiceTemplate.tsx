@@ -27,7 +27,7 @@ const SweInvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
   const [swiftCode, setSwiftCode] = useState("");
 
   const [services, setServices] = useState([
-    { name: '', description: '', price: '' },
+    { name: '', description: '', subdescription: '', price: '' },
   ]);
   const [payments, setPayments] = useState([
     { date: '', percent: '100.00%', amount: '0' },
@@ -47,7 +47,7 @@ const SweInvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
   }, [services]);
 
   const addService = () => {
-    setServices([...services, { name: '', description: '', price: '' }]);
+    setServices([...services, { name: '', description: '', subdescription: '', price: '' }]);
   };
 
   const removeService = (index: number) => {
@@ -117,6 +117,13 @@ const SweInvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
   const handleServiceDescriptionChange = (index: number, value: string) => {
     const updatedServices = services.map((service, i) =>
       i === index ? { ...service, description: value } : service
+    );
+    setServices(updatedServices);
+  };
+
+  const handleServiceSubDescriptionChange = (index: number, value: string) => {
+    const updatedServices = services.map((service, i) =>
+      i === index ? { ...service, subdescription: value } : service
     );
     setServices(updatedServices);
   };
@@ -272,7 +279,7 @@ const SweInvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
               Services
             </h3>
             <h3 className="font-satoshi-variable text-sm text-gray-500 uppercase">
-              Price
+              Amount
             </h3>
           </div>
 
@@ -298,8 +305,18 @@ const SweInvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
                     onChange={(e) =>
                       handleServiceDescriptionChange(index, e.target.value)
                     }
-                    className="font-satoshi-variable text-md text-gray-400 inline-block border-b-2 border-gray-300 w-full"
+                    className="font-satoshi-variable text-md mb-1 inline-block border-b-2 border-gray-300 w-full"
                     placeholder="Description"
+                  />
+
+                  <input
+                    type="text"
+                    value={service.subdescription}
+                    onChange={(e) =>
+                      handleServiceSubDescriptionChange(index, e.target.value)
+                    }
+                    className="font-satoshi-variable text-md inline-block border-b-2 border-gray-300 w-full"
+                    placeholder="Sub Description"
                   />
                 </div>
                 <input
