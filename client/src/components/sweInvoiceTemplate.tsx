@@ -14,6 +14,7 @@ const SweInvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
   const [clientName, setClientName] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [companyEmail, setCompanyEmail] = useState('');
+  const [streetAddress, setStreetAddress] = useState('');
   const [issueDate, setIssueDate] = useState(formattedToday);
   const [contactName, setContactName] = useState('');
   const [companyStreetAddress, setCompanyStreetAddress] = useState('');
@@ -25,6 +26,7 @@ const SweInvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
   const [accountNumber, setAccountNumber] = useState("");
   const [routingNumber, setRoutingNumber] = useState("");
   const [swiftCode, setSwiftCode] = useState("");
+  const [institutionNumber, setInstitutionNumber] = useState("");
 
   const [services, setServices] = useState([
     { name: '', description: '', subdescription: '', price: '' },
@@ -198,7 +200,7 @@ const SweInvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
       }}
     >
       <header className="flex justify-between items-center">
-        <h1 className="text-6xl font-satoshi-variable font-bold">Invoice</h1>
+        <h1 className="text-6xl font-satoshi-variable font-bold -mt-16">Invoice</h1>
         <div>
           <input
             type="text"
@@ -215,17 +217,44 @@ const SweInvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
             className="font-satoshi-variable text-md text-right inline-block border-b-2 border-gray-300 w-64"
             placeholder="Company Email"
           />
+          <br />
+          <br />
+          <input
+            type="email"
+            value={streetAddress}
+            onChange={(e) => setStreetAddress(e.target.value)}
+            className="font-satoshi-variable text-md text-right inline-block border-b-2 border-gray-300 w-64"
+            placeholder="Street Address"
+          />
+          <br />
+          <input
+            type="email"
+            className="font-satoshi-variable text-md text-right inline-block border-b-2 border-gray-300 w-64"
+            placeholder="City, Province"
+          />
+          <br />
+          <input
+            type="email"
+            className="font-satoshi-variable text-md text-right inline-block border-b-2 border-gray-300 w-64"
+            placeholder="Postal Code"
+          />
+          <br />
+          <input
+            type="email"
+            className="font-satoshi-variable text-md text-right inline-block border-b-2 border-gray-300 w-64"
+            placeholder="Country"
+          />
         </div>
       </header>
 
-      <h2 className="text-xl mt-4 font-satoshi-variable font-bold">
+      <h2 className="text-xl -mt-12 font-satoshi-variable font-bold">
         Invoice #
         <input
           type="text"
           value={clientName}
           onChange={handleClientNameChange}
           className="inline-block border-b-2 border-gray-300 w-64"
-          placeholder="001"
+          placeholder="00X"
         />
       </h2>
 
@@ -422,7 +451,7 @@ const SweInvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
       {/* Payment Information Section */}
       <section className="flex-grow-0 mb-8">
         <h3 className="font-satoshi-variable text-sm text-gray-500 uppercase mb-2">
-          Payment Structure
+          Payment Information
         </h3>
         <div className="border-t-2 border-black py-4">
           
@@ -474,6 +503,16 @@ const SweInvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
               onChange={(e) => setSwiftCode(e.target.value)}
               className="inline-block border-b-2 border-gray-300 w-64"
               placeholder="Swift Code"
+            />
+          </p>
+          <p className="text-xl mt-4 font-satoshi-variable font-bold">
+            Institution Number:{' '}
+            <input
+              type="text"
+              value={institutionNumber}
+              onChange={(e) => setInstitutionNumber(e.target.value)}
+              className="inline-block border-b-2 border-gray-300 w-64"
+              placeholder="003"
             />
           </p>
         </div>
