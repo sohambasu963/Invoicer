@@ -476,23 +476,13 @@ const SweInvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
             />
           </p>
           <p className="text-xl mt-4 font-satoshi-variable font-bold">
-            Account Number:{' '}
-            <input
-              type="text"
-              value={accountNumber}
-              onChange={(e) => setAccountNumber(e.target.value)}
-              className="inline-block border-b-2 border-gray-300 w-64"
-              placeholder="Account Number"
-            />
-          </p>
-          <p className="text-xl mt-4 font-satoshi-variable font-bold">
-            Routing Number:{' '}
+            Phone Number:{' '}
             <input
               type="text"
               value={routingNumber}
               onChange={(e) => setRoutingNumber(e.target.value)}
               className="inline-block border-b-2 border-gray-300 w-64"
-              placeholder="ABA ### ### ###"
+              placeholder="###-###-####"
             />
           </p>
           <p className="text-xl mt-4 font-satoshi-variable font-bold">
@@ -506,13 +496,31 @@ const SweInvoiceTemplate = forwardRef<HTMLDivElement, Props>((props, ref) => {
             />
           </p>
           <p className="text-xl mt-4 font-satoshi-variable font-bold">
-            Institution Number:{' '}
+            Account Number:{' '}
+            <input
+              type="text"
+              value={accountNumber}
+              onChange={(e) => setAccountNumber(e.target.value)}
+              className="inline-block border-b-2 border-gray-300 w-64"
+              placeholder="Account Number"
+            />
+          </p>
+          <p className="text-xl mt-4 font-satoshi-variable font-bold">
+            Bank Code:{' '}
             <input
               type="text"
               value={institutionNumber}
               onChange={(e) => setInstitutionNumber(e.target.value)}
               className="inline-block border-b-2 border-gray-300 w-64"
-              placeholder="003"
+              placeholder="000"
+            />
+          </p>
+          <p className="text-xl mt-4 font-satoshi-variable font-bold">
+            Transit Number:{' '}
+            <input
+              type="text"
+              className="inline-block border-b-2 border-gray-300 w-64"
+              placeholder="00000"
             />
           </p>
         </div>
